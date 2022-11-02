@@ -2,9 +2,13 @@ package com.fullcycle.admin.catalogo.application.category.create;
 
 import com.fullcycle.admin.catalogo.domain.category.Category;
 import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
-import com.fullcycle.admin.catalogo.domain.validation.handler.ThrowsValidationHandler;
+import com.fullcycle.admin.catalogo.domain.validation.handler.Notification;
+import io.vavr.control.Either;
 
 import java.util.Objects;
+
+import static io.vavr.API.Left;
+import static io.vavr.API.Try;
 
 public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase {
 
@@ -16,15 +20,21 @@ public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase {
 
 
     @Override
-    public CreateCategoryOutput execute(final CreateCategoryCommand command) {
+    public Either<Notification, CreateCategoryOutput> execute(final CreateCategoryCommand command) {
         final var name = command.name();
         final var description = command.description();
         final var isActive = command.isActive();
 
+        final var notification = Notification.create();
         final var category = Category.newCategory(name, description, isActive);
-        category.validate(new ThrowsValidationHandler());
+        category.validate(notification);
 
-        final var createdCategory = this.categoryGateway.create(category);
-        return CreateCategoryOutput.from(createdCategory);
+        return notification.hasError() ? Left(notification) : createCategoryOutput(category);
+    }
+
+    private Either<Notification, CreateCategoryOutput> createCategoryOutput(final Category category) {
+        return Try(() -> this.categoryGateway.create(category))
+                .toEither()
+                .bimap(Notification::create, CreateCategoryOutput::from);
     }
 }
