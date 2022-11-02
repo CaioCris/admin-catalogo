@@ -3,6 +3,8 @@
  */
 package com.fullcycle.admin.catalogo;
 
+import com.fullcycle.admin.catalogo.application.UseCase;
+
 public class Main {
     public String getGreeting() {
         return "Hello World!";
@@ -10,6 +12,5 @@ public class Main {
 
     public static void main(String[] args) {
         System.out.println(new Main().getGreeting());
-        System.out.println(new UseCase().execute());
     }
 }
