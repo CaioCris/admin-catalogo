@@ -44,7 +44,7 @@ public class DefaultUpdateCategoryUseCase extends UpdateCategoryUseCase {
                 .bimap(Notification::create, UpdateCategoryOutput::from);
     }
 
-    private static Supplier<DomainException> notFound(CategoryID id) {
+    private static Supplier<DomainException> notFound(final CategoryID id) {
         return () -> DomainException.with(new Error("Category with ID %s was not found".formatted(id.getValue())));
     }
 }
