@@ -29,10 +29,10 @@ public class DefaultCreateCategoryUseCase extends CreateCategoryUseCase {
         final var category = Category.newCategory(name, description, isActive);
         category.validate(notification);
 
-        return notification.hasError() ? Left(notification) : createCategoryOutput(category);
+        return notification.hasError() ? Left(notification) : createCategory(category);
     }
 
-    private Either<Notification, CreateCategoryOutput> createCategoryOutput(final Category category) {
+    private Either<Notification, CreateCategoryOutput> createCategory(final Category category) {
         return Try(() -> this.categoryGateway.create(category))
                 .toEither()
                 .bimap(Notification::create, CreateCategoryOutput::from);
