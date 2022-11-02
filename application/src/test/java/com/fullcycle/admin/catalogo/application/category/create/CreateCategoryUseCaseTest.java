@@ -2,6 +2,7 @@ package com.fullcycle.admin.catalogo.application.category.create;
 
 import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -21,6 +22,11 @@ public class CreateCategoryUseCaseTest {
 
     @InjectMocks
     private DefaultCreateCategoryUseCase useCase;
+
+    @BeforeEach
+    void cleanUp() {
+        reset(categoryGateway);
+    }
 
     @Test
     public void givenAValidCommand_whenCallsCreateCategory_shouldReturnCategoryId() {
@@ -109,7 +115,7 @@ public class CreateCategoryUseCaseTest {
         final var expectedErrorCount = 1;
 
         //When
-        when(categoryGateway.create(any())).thenThrow(new IllegalStateException("Gateway Error"));
+        when(categoryGateway.create(any())).thenThrow(new IllegalStateException(expectedErrorMessage));
         final var command = CreateCategoryCommand.with(expectedName, expectedDescription, expectedIsActive);
         final var notification = useCase.execute(command).getLeft();
 
