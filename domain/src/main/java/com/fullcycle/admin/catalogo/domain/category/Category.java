@@ -5,7 +5,7 @@ import com.fullcycle.admin.catalogo.domain.validation.ValidationHandler;
 
 import java.time.Instant;
 
-public class Category extends AggregateRoot<CategoryID> {
+public class Category extends AggregateRoot<CategoryID> implements Cloneable{
 
     private String name;
     private String description;
@@ -93,5 +93,15 @@ public class Category extends AggregateRoot<CategoryID> {
         if (isActive) activate(); else deactivate();
         this.updatedAt = Instant.now();
         return this;
+    }
+
+    @Override
+    public Category clone() {
+        try {
+            Category clone = (Category) super.clone();
+            return clone;
+        } catch (CloneNotSupportedException e) {
+            throw new AssertionError();
+        }
     }
 }
