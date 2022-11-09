@@ -1,4 +1,4 @@
-package com.fullcycle.admin.catalogo.application.category.retrieve;
+package com.fullcycle.admin.catalogo.application.category.retrieve.get;
 
 import com.fullcycle.admin.catalogo.application.category.retrieve.get.DefaultGetCategoryByIdUseCase;
 import com.fullcycle.admin.catalogo.domain.category.Category;
@@ -32,7 +32,7 @@ public class GetCategoryByIdUseCaseTest {
     }
 
     @Test
-    public void givenAValidId_whenCallsDGetCategoryById_shouldCategory() {
+    public void givenAValidId_whenCallsGetCategoryById_shouldReturnCategory() {
         //Given
         final var expectedName = "Filme";
         final var expectedDescription = "A categoria mais assistida";
