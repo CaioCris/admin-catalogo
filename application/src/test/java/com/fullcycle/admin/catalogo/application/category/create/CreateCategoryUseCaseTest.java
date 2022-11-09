@@ -106,7 +106,7 @@ public class CreateCategoryUseCaseTest {
     }
 
     @Test
-    public void givenAValidCommand_whenGatewayThrowsRandomException_shouldReturnAException() {
+    public void givenAValidCommand_whenGatewayThrowsRandomException_shouldReturnAnException() {
         //Given
         final var expectedName = "Filme";
         final var expectedDescription = "A categoria mais assistida";
