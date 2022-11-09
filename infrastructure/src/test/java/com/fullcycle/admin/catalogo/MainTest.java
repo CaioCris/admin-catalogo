@@ -3,6 +3,7 @@
  */
 package com.fullcycle.admin.catalogo;
 
+import com.fullcycle.admin.catalogo.infrastructure.Main;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
