@@ -3,15 +3,16 @@ package com.fullcycle.admin.catalogo.infrastructure.category.persistence;
 import com.fullcycle.admin.catalogo.domain.category.Category;
 import com.fullcycle.admin.catalogo.domain.category.CategoryID;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import java.time.Instant;
 
 @Entity
 @Table(name = "category")
 public class CategoryJpaEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id", nullable = false)
     private String id;
 
     @Column(name = "name", nullable = false)
