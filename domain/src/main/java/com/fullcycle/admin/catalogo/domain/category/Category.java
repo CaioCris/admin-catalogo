@@ -5,7 +5,7 @@ import com.fullcycle.admin.catalogo.domain.validation.ValidationHandler;
 
 import java.time.Instant;
 
-public class Category extends AggregateRoot<CategoryID> implements Cloneable{
+public class Category extends AggregateRoot<CategoryID> implements Cloneable {
 
     private String name;
     private String description;
@@ -35,6 +35,36 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable{
         final var now = Instant.now();
         final var deletedAt = active ? null : Instant.now();
         return new Category(id, name, description, active, now, now, deletedAt);
+    }
+
+    public static Category with(final CategoryID id,
+                                final String name,
+                                final String description,
+                                final boolean active,
+                                final Instant createdAt,
+                                final Instant updatedAt,
+                                final Instant deletedAt) {
+        return new Category(
+                id,
+                name,
+                description,
+                active,
+                createdAt,
+                updatedAt,
+                deletedAt
+        );
+    }
+
+    public static Category with(final Category category) {
+        return with(
+                category.getId(),
+                category.name,
+                category.description,
+                category.isActive(),
+                category.createdAt,
+                category.updatedAt,
+                category.deletedAt
+        );
     }
 
     @Override
@@ -90,7 +120,8 @@ public class Category extends AggregateRoot<CategoryID> implements Cloneable{
     public Category update(final String name, final String description, final boolean isActive) {
         this.name = name;
         this.description = description;
-        if (isActive) activate(); else deactivate();
+        if (isActive) activate();
+        else deactivate();
         this.updatedAt = Instant.now();
         return this;
     }
