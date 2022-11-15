@@ -5,16 +5,17 @@ import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
 import com.fullcycle.admin.catalogo.domain.category.CategoryID;
 import com.fullcycle.admin.catalogo.domain.category.CategorySearchQuery;
 import com.fullcycle.admin.catalogo.domain.pagination.Pagination;
-import org.springframework.stereotype.Component;
+import com.fullcycle.admin.catalogo.infrastructure.category.persistence.CategoryRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-@Component
+@Service
 public class CategoryMySQLGateway implements CategoryGateway {
 
-    private final CategoryGateway repository;
+    private final CategoryRepository repository;
 
-    public CategoryMySQLGateway(final CategoryGateway repository) {
+    public CategoryMySQLGateway(final CategoryRepository repository) {
         this.repository = repository;
     }
 
