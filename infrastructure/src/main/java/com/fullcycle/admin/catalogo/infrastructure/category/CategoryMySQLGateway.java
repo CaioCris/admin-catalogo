@@ -5,6 +5,7 @@ import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
 import com.fullcycle.admin.catalogo.domain.category.CategoryID;
 import com.fullcycle.admin.catalogo.domain.category.CategorySearchQuery;
 import com.fullcycle.admin.catalogo.domain.pagination.Pagination;
+import com.fullcycle.admin.catalogo.infrastructure.category.persistence.CategoryJpaEntity;
 import com.fullcycle.admin.catalogo.infrastructure.category.persistence.CategoryRepository;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +22,8 @@ public class CategoryMySQLGateway implements CategoryGateway {
 
 
     @Override
-    public Category create(Category category) {
-        return null;
+    public Category create(final Category category) {
+        return this.repository.save(CategoryJpaEntity.from(category)).toAggregate();
     }
 
     @Override
