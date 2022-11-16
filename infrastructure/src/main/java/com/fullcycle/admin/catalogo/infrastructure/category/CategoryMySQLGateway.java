@@ -7,7 +7,6 @@ import com.fullcycle.admin.catalogo.domain.category.CategorySearchQuery;
 import com.fullcycle.admin.catalogo.domain.pagination.Pagination;
 import com.fullcycle.admin.catalogo.infrastructure.category.persistence.CategoryJpaEntity;
 import com.fullcycle.admin.catalogo.infrastructure.category.persistence.CategoryRepository;
-import com.fullcycle.admin.catalogo.infrastructure.utils.SpecificationUtils;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -63,8 +62,11 @@ public class CategoryMySQLGateway implements CategoryGateway {
         // Dynamic Search
         final var specifications = Optional.ofNullable(query.terms())
                 .filter(str -> !str.isBlank())
-                .map(str -> SpecificationUtils.<CategoryJpaEntity>like("name", str)
-                        .or(like("description", str)))
+                .map(str -> {
+                    final Specification<CategoryJpaEntity> nameLike = like("name", str);
+                    final Specification<CategoryJpaEntity> descriptionLike = like("description", str);
+                    return nameLike.or(descriptionLike);
+                })
                 .orElse(null);
 
         final var pageResult = this.repository.findAll(Specification.where(specifications), pageRequest);
