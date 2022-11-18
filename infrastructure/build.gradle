@@ -34,6 +34,9 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":application"))
 
+    // https://mvnrepository.com/artifact/io.vavr/vavr
+    implementation 'io.vavr:vavr:0.10.4'
+
     implementation('mysql:mysql-connector-java:')
 
     implementation('org.springframework.boot:spring-boot-starter-web') {
