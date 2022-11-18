@@ -1,7 +1,5 @@
 package com.fullcycle.admin.catalogo.application.category.update;
 
-import com.fullcycle.admin.catalogo.domain.category.CategoryID;
-
 public record UpdateCategoryCommand(
         String id,
         String name,

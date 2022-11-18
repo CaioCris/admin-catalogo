@@ -22,6 +22,9 @@ public class DefaultUpdateCategoryUseCase extends UpdateCategoryUseCase {
         this.categoryGateway = Objects.requireNonNull(categoryGateway);
     }
 
+    private static Supplier<DomainException> notFound(final CategoryID id) {
+        return () -> DomainException.with(new Error("Category with ID %s was not found".formatted(id.getValue())));
+    }
 
     @Override
     public Either<Notification, UpdateCategoryOutput> execute(final UpdateCategoryCommand command) {
@@ -42,9 +45,5 @@ public class DefaultUpdateCategoryUseCase extends UpdateCategoryUseCase {
         return Try(() -> this.categoryGateway.update(category))
                 .toEither()
                 .bimap(Notification::create, UpdateCategoryOutput::from);
-    }
-
-    private static Supplier<DomainException> notFound(final CategoryID id) {
-        return () -> DomainException.with(new Error("Category with ID %s was not found".formatted(id.getValue())));
     }
 }

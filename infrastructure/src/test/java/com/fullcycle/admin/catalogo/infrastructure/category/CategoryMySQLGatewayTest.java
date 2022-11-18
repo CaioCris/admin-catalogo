@@ -1,9 +1,9 @@
 package com.fullcycle.admin.catalogo.infrastructure.category;
 
+import com.fullcycle.admin.catalogo.MySQLGatewayTest;
 import com.fullcycle.admin.catalogo.domain.category.Category;
 import com.fullcycle.admin.catalogo.domain.category.CategoryID;
 import com.fullcycle.admin.catalogo.domain.category.CategorySearchQuery;
-import com.fullcycle.admin.catalogo.MySQLGatewayTest;
 import com.fullcycle.admin.catalogo.infrastructure.category.persistence.CategoryJpaEntity;
 import com.fullcycle.admin.catalogo.infrastructure.category.persistence.CategoryRepository;
 import org.junit.jupiter.api.Assertions;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 @MySQLGatewayTest
-public class CategoryMySQLGatewayTest {
+class CategoryMySQLGatewayTest {
 
     @Autowired
     private CategoryMySQLGateway categoryMySQLGateway;
@@ -22,7 +22,7 @@ public class CategoryMySQLGatewayTest {
     private CategoryRepository categoryRepository;
 
     @Test
-    public void givenAValidCategory_whenCallsCreate_shouldReturnANewCategory() {
+    void givenAValidCategory_whenCallsCreate_shouldReturnANewCategory() {
         final var expectedName = "Filmes";
         final var expectedDescription = "A categoria mais assistida";
         final var expectedIsActive = true;
@@ -58,7 +58,7 @@ public class CategoryMySQLGatewayTest {
     }
 
     @Test
-    public void givenAValidCategory_whenCallsUpdate_shouldReturnACategoryUpdated() {
+    void givenAValidCategory_whenCallsUpdate_shouldReturnACategoryUpdated() {
         // Given
         final var expectedName = "Filmes";
         final var expectedDescription = "A categoria mais assistida";
@@ -103,7 +103,7 @@ public class CategoryMySQLGatewayTest {
     }
 
     @Test
-    public void givenAPrePersistedCategoryAndValidCategoryId_whenTryToDeleteIt_shouldDeleteCategory() {
+    void givenAPrePersistedCategoryAndValidCategoryId_whenTryToDeleteIt_shouldDeleteCategory() {
         // Given
         final var expectedName = "Filmes";
         final var expectedDescription = "A categoria mais assistida";
@@ -122,7 +122,7 @@ public class CategoryMySQLGatewayTest {
     }
 
     @Test
-    public void givenInvalidCategoryId_whenTryToDeleteIt_shouldDeleteCategory() {
+    void givenInvalidCategoryId_whenTryToDeleteIt_shouldDeleteCategory() {
         // Given
         Assertions.assertEquals(0, categoryRepository.count());
 
@@ -134,7 +134,7 @@ public class CategoryMySQLGatewayTest {
     }
 
     @Test
-    public void givenAPrePersistedCategoryAndValidCategoryId_whenCallsFindById_shouldReturnACategory() {
+    void givenAPrePersistedCategoryAndValidCategoryId_whenCallsFindById_shouldReturnACategory() {
         // Given
         final var expectedName = "Filmes";
         final var expectedDescription = "A categoria mais assistida";
@@ -161,7 +161,7 @@ public class CategoryMySQLGatewayTest {
     }
 
     @Test
-    public void givenValidCategoryIdNotStored_whenCallsFindById_shouldReturnEmpty() {
+    void givenValidCategoryIdNotStored_whenCallsFindById_shouldReturnEmpty() {
         // Given
         Assertions.assertEquals(0, categoryRepository.count());
 
@@ -173,7 +173,7 @@ public class CategoryMySQLGatewayTest {
     }
 
     @Test
-    public void givenAPrePersistedCategories_whenCallsFindAll_shouldReturnPaginated() {
+    void givenAPrePersistedCategories_whenCallsFindAll_shouldReturnPaginated() {
         // Given
         final var expectedPage = 0;
         final var expectedPerPage = 1;
@@ -206,7 +206,7 @@ public class CategoryMySQLGatewayTest {
     }
 
     @Test
-    public void givenEmptyCategories_whenCallsFindAll_shouldReturnEmptyPage() {
+    void givenEmptyCategories_whenCallsFindAll_shouldReturnEmptyPage() {
         // Given
         final var expectedPage = 0;
         final var expectedPerPage = 1;
@@ -226,7 +226,7 @@ public class CategoryMySQLGatewayTest {
     }
 
     @Test
-    public void givenFollowPagination_whenCallsFindAllWithPage1_shouldReturnPaginated() {
+    void givenFollowPagination_whenCallsFindAllWithPage1_shouldReturnPaginated() {
         // Given
         var expectedPage = 0;
         final var expectedPerPage = 1;
@@ -284,7 +284,7 @@ public class CategoryMySQLGatewayTest {
     }
 
     @Test
-    public void givenAPrePersistedCategoriesAndDocAsTerms_whenCallsFindAllAndTermsMatchCategoryName_shouldReturnPaginated() {
+    void givenAPrePersistedCategoriesAndDocAsTerms_whenCallsFindAllAndTermsMatchCategoryName_shouldReturnPaginated() {
         // Given
         final var expectedPage = 0;
         final var expectedPerPage = 1;
@@ -317,7 +317,7 @@ public class CategoryMySQLGatewayTest {
     }
 
     @Test
-    public void givenAPrePersistedCategoriesAndMaisAssistidaAsTerms_whenCallsFindAllAndTermsMatchCategoryDescription_shouldReturnPaginated() {
+    void givenAPrePersistedCategoriesAndMaisAssistidaAsTerms_whenCallsFindAllAndTermsMatchCategoryDescription_shouldReturnPaginated() {
         // Given
         final var expectedPage = 0;
         final var expectedPerPage = 1;

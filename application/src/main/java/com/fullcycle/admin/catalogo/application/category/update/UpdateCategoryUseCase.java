@@ -1,8 +1,6 @@
 package com.fullcycle.admin.catalogo.application.category.update;
 
 import com.fullcycle.admin.catalogo.application.UseCase;
-import com.fullcycle.admin.catalogo.application.category.create.CreateCategoryCommand;
-import com.fullcycle.admin.catalogo.application.category.create.CreateCategoryOutput;
 import com.fullcycle.admin.catalogo.domain.validation.handler.Notification;
 import io.vavr.control.Either;
 

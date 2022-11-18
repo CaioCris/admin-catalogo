@@ -2,7 +2,6 @@ package com.fullcycle.admin.catalogo.application.category.retrieve.list;
 
 import com.fullcycle.admin.catalogo.domain.category.Category;
 import com.fullcycle.admin.catalogo.domain.category.CategoryID;
-import com.fullcycle.admin.catalogo.domain.pagination.Pagination;
 
 import java.time.Instant;
 

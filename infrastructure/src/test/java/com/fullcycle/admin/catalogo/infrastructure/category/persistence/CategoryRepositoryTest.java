@@ -1,7 +1,7 @@
 package com.fullcycle.admin.catalogo.infrastructure.category.persistence;
 
-import com.fullcycle.admin.catalogo.domain.category.Category;
 import com.fullcycle.admin.catalogo.MySQLGatewayTest;
+import com.fullcycle.admin.catalogo.domain.category.Category;
 import org.hibernate.PropertyValueException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -9,13 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
 @MySQLGatewayTest
-public class CategoryRepositoryTest {
+class CategoryRepositoryTest {
 
     @Autowired
     private CategoryRepository categoryRepository;
 
     @Test
-    public void givenAnInvalidNullName_whenCallsSave_shouldReturnError() {
+    void givenAnInvalidNullName_whenCallsSave_shouldReturnError() {
         final var expectedName = "Filmes";
         final var expectedDescription = "A categoria mais assistida";
         final var expectedIsActive = true;
@@ -36,7 +36,7 @@ public class CategoryRepositoryTest {
     }
 
     @Test
-    public void givenAnInvalidNullCreatedAt_whenCallsSave_shouldReturnError() {
+    void givenAnInvalidNullCreatedAt_whenCallsSave_shouldReturnError() {
         final var expectedName = "Filmes";
         final var expectedDescription = "A categoria mais assistida";
         final var expectedIsActive = true;
@@ -57,7 +57,7 @@ public class CategoryRepositoryTest {
     }
 
     @Test
-    public void givenAnInvalidNullUpdatedAt_whenCallsSave_shouldReturnError() {
+    void givenAnInvalidNullUpdatedAt_whenCallsSave_shouldReturnError() {
         final var expectedName = "Filmes";
         final var expectedDescription = "A categoria mais assistida";
         final var expectedIsActive = true;

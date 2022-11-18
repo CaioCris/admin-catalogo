@@ -10,7 +10,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Objects;
@@ -20,7 +19,7 @@ import static org.mockito.AdditionalAnswers.returnsFirstArg;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class UpdateCategoryUseCaseTest {
+class UpdateCategoryUseCaseTest {
 
     @Mock
     private CategoryGateway categoryGateway;
@@ -34,7 +33,7 @@ public class UpdateCategoryUseCaseTest {
     }
 
     @Test
-    public void givenAValidCommand_whenCallsUpdateCategory_shouldReturnCategoryId() {
+    void givenAValidCommand_whenCallsUpdateCategory_shouldReturnCategoryId() {
         //Given
         final var oldCategory = Category.newCategory("Film", null, true);
         final var expectedId = oldCategory.getId();
@@ -43,7 +42,7 @@ public class UpdateCategoryUseCaseTest {
         final var expectedIsActive = true;
 
         //When
-        when(categoryGateway.findById(eq(expectedId))).thenReturn(Optional.of(oldCategory.clone()));
+        when(categoryGateway.findById(expectedId)).thenReturn(Optional.of(oldCategory.clone()));
         when(categoryGateway.update(any())).thenAnswer(returnsFirstArg());
         final var command = UpdateCategoryCommand.with(expectedId.getValue(), expectedName, expectedDescription, expectedIsActive);
         final var actualOutput = useCase.execute(command).get();
@@ -52,7 +51,7 @@ public class UpdateCategoryUseCaseTest {
         Assertions.assertNotNull(actualOutput);
         Assertions.assertNotNull(actualOutput.id());
 
-        verify(categoryGateway, times(1)).findById(eq(expectedId));
+        verify(categoryGateway, times(1)).findById(expectedId);
         verify(categoryGateway, times(1)).update(
                 argThat(
                         updatedCategory -> Objects.equals(expectedId, updatedCategory.getId())
@@ -67,7 +66,7 @@ public class UpdateCategoryUseCaseTest {
     }
 
     @Test
-    public void givenAInvalidName_whenCallsUpdateCategory_shouldReturnDomainException() {
+    void givenAInvalidName_whenCallsUpdateCategory_shouldReturnDomainException() {
         //Given
         final var oldCategory = Category.newCategory("Film", null, true);
         final var expectedId = oldCategory.getId();
@@ -79,7 +78,7 @@ public class UpdateCategoryUseCaseTest {
 
         //When
         final var command = UpdateCategoryCommand.with(expectedId.getValue(), expectedName, expectedDescription, expectedIsActive);
-        when(categoryGateway.findById(eq(expectedId))).thenReturn(Optional.of(oldCategory.clone()));
+        when(categoryGateway.findById(expectedId)).thenReturn(Optional.of(oldCategory.clone()));
         final var notification = useCase.execute(command).getLeft();
 
         //Then
@@ -89,7 +88,7 @@ public class UpdateCategoryUseCaseTest {
     }
 
     @Test
-    public void givenAValidCommandWithInactiveCategory_whenCallsUpdateCategory_shouldReturnInactiveCategoryId() {
+    void givenAValidCommandWithInactiveCategory_whenCallsUpdateCategory_shouldReturnInactiveCategoryId() {
         //Given
         final var oldCategory = Category.newCategory("Film", null, true);
         final var expectedId = oldCategory.getId();
@@ -98,7 +97,7 @@ public class UpdateCategoryUseCaseTest {
         final var expectedIsActive = false;
 
         //When
-        when(categoryGateway.findById(eq(expectedId))).thenReturn(Optional.of(oldCategory.clone()));
+        when(categoryGateway.findById(expectedId)).thenReturn(Optional.of(oldCategory.clone()));
         when(categoryGateway.update(any())).thenAnswer(returnsFirstArg());
 
         Assertions.assertTrue(oldCategory.isActive());
@@ -111,7 +110,7 @@ public class UpdateCategoryUseCaseTest {
         Assertions.assertNotNull(actualOutput);
         Assertions.assertNotNull(actualOutput.id());
 
-        verify(categoryGateway, times(1)).findById(eq(expectedId));
+        verify(categoryGateway, times(1)).findById(expectedId);
         verify(categoryGateway, times(1)).update(
                 argThat(
                         updatedCategory -> Objects.equals(expectedId, updatedCategory.getId())
@@ -126,7 +125,7 @@ public class UpdateCategoryUseCaseTest {
     }
 
     @Test
-    public void givenAValidCommand_whenGatewayThrowsRandomException_shouldReturnAException() {
+    void givenAValidCommand_whenGatewayThrowsRandomException_shouldReturnAException() {
         //Given
         final var oldCategory = Category.newCategory("Film", null, true);
         final var expectedId = oldCategory.getId();
@@ -137,7 +136,7 @@ public class UpdateCategoryUseCaseTest {
         final var expectedErrorCount = 1;
 
         //When
-        when(categoryGateway.findById(eq(expectedId))).thenReturn(Optional.of(oldCategory.clone()));
+        when(categoryGateway.findById(expectedId)).thenReturn(Optional.of(oldCategory.clone()));
         when(categoryGateway.update(any())).thenThrow(new IllegalStateException(expectedErrorMessage));
         final var command = UpdateCategoryCommand.with(expectedId.getValue(), expectedName, expectedDescription, expectedIsActive);
         final var notification = useCase.execute(command).getLeft();
@@ -159,7 +158,7 @@ public class UpdateCategoryUseCaseTest {
     }
 
     @Test
-    public void givenACommandWithInvalidId_whenCallsUpdateCategory_shouldReturnNotFoundException() {
+    void givenACommandWithInvalidId_whenCallsUpdateCategory_shouldReturnNotFoundException() {
         //Given
         final var expectedId = "123";
         final var expectedName = "Filme";
@@ -169,7 +168,7 @@ public class UpdateCategoryUseCaseTest {
         final var expectedErrorCount = 1;
 
         //When
-        when(categoryGateway.findById(eq(CategoryID.from(expectedId)))).thenReturn(Optional.empty());
+        when(categoryGateway.findById(CategoryID.from(expectedId))).thenReturn(Optional.empty());
         final var command = UpdateCategoryCommand.with(expectedId, expectedName, expectedDescription, expectedIsActive);
         final var actualException = Assertions.assertThrows(DomainException.class, () -> useCase.execute(command));
 

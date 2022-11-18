@@ -1,6 +1,5 @@
 package com.fullcycle.admin.catalogo.application.category.retrieve.get;
 
-import com.fullcycle.admin.catalogo.application.category.retrieve.get.DefaultGetCategoryByIdUseCase;
 import com.fullcycle.admin.catalogo.domain.category.Category;
 import com.fullcycle.admin.catalogo.domain.category.CategoryGateway;
 import com.fullcycle.admin.catalogo.domain.category.CategoryID;
@@ -18,7 +17,7 @@ import java.util.Optional;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class GetCategoryByIdUseCaseTest {
+class GetCategoryByIdUseCaseTest {
 
     @Mock
     private CategoryGateway categoryGateway;
@@ -32,7 +31,7 @@ public class GetCategoryByIdUseCaseTest {
     }
 
     @Test
-    public void givenAValidId_whenCallsGetCategoryById_shouldReturnCategory() {
+    void givenAValidId_whenCallsGetCategoryById_shouldReturnCategory() {
         //Given
         final var expectedName = "Filme";
         final var expectedDescription = "A categoria mais assistida";
@@ -41,7 +40,7 @@ public class GetCategoryByIdUseCaseTest {
         final var expectedId = category.getId();
 
         //When
-        doReturn(Optional.of(category.clone())).when(categoryGateway).findById(eq(expectedId));
+        doReturn(Optional.of(category.clone())).when(categoryGateway).findById(expectedId);
         final var actualCategory = useCase.execute(expectedId.getValue());
 
         //Then
@@ -54,39 +53,41 @@ public class GetCategoryByIdUseCaseTest {
         Assertions.assertEquals(category.getUpdatedAt(), actualCategory.updatedAt());
         Assertions.assertEquals(category.getDeletedAt(), actualCategory.deletedAt());
 
-        verify(categoryGateway, times(2)).findById(eq(expectedId));
+        verify(categoryGateway, times(2)).findById(expectedId);
 
     }
 
     @Test
-    public void givenAInvalidId_whenCallsGetCategoryById_shouldReturnNotFound() {
+    void givenAInvalidId_whenCallsGetCategoryById_shouldReturnNotFound() {
         //Given
         final var expectedId = CategoryID.from("123");
-        final var expectedErrorMessage = "Category with ID %s was not found".formatted(expectedId.getValue());
+        final var expectedIdValue = expectedId.getValue();
+        final var expectedErrorMessage = "Category with ID %s was not found".formatted(expectedIdValue);
 
         //When
-        doReturn(Optional.empty()).when(categoryGateway).findById(eq(expectedId));
+        doReturn(Optional.empty()).when(categoryGateway).findById(expectedId);
         final var actualException = Assertions.assertThrows(
-                DomainException.class, () -> useCase.execute(expectedId.getValue()));
+                DomainException.class, () -> useCase.execute(expectedIdValue));
 
         //Then
         Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
     }
 
     @Test
-    public void givenAValidId_whenGatewayThrowsRandomException_shouldReturnException() {
+    void givenAValidId_whenGatewayThrowsRandomException_shouldReturnException() {
         //Given
         final var name = "Filme";
         final var description = "A categoria mais assistida";
         final var isActive = true;
         final var category = Category.newCategory(name, description, isActive);
         final var expectedId = category.getId();
+        final var expectedIdValue = expectedId.getValue();
         final var expectedErrorMessage = "Gateway Error";
 
         //When
-        doThrow(new IllegalStateException(expectedErrorMessage)).when(categoryGateway).findById(eq(expectedId));
+        doThrow(new IllegalStateException(expectedErrorMessage)).when(categoryGateway).findById(expectedId);
         final var actualException = Assertions.assertThrows(
-                IllegalStateException.class, () -> useCase.execute(expectedId.getValue()));
+                IllegalStateException.class, () -> useCase.execute(expectedIdValue));
 
         //Then
         Assertions.assertEquals(expectedErrorMessage, actualException.getMessage());
